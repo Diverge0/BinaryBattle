@@ -1,6 +1,8 @@
 package main.java.diverge;
+import main.java.diverge.commands.CountdownCommand;
 import main.java.diverge.commands.PingPongCommand;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -23,6 +25,9 @@ public class BinaryBattle {
     //Needed to register commands
     @Inject
     private PluginContainer plugin;
+    public PluginContainer getPlugin(){
+        return plugin;
+    }
 
     //Public method to log from anywhere
     public void log(String logtext){
@@ -37,6 +42,16 @@ public class BinaryBattle {
                 .executor(new PingPongCommand())
                 .build();
         Sponge.getCommandManager().register(plugin ,PingPong, "ping");
+
+        //Countdown command (see commands.Countdown)
+        CommandSpec Countdown = CommandSpec.builder()
+                .description(Text.of("/countdown [int] summons a countdown in seconds"))
+                .arguments(
+                        GenericArguments.onlyOne(GenericArguments.integer(Text.of("time in seconds")))
+                )
+                .executor(new CountdownCommand())
+                .build();
+        Sponge.getCommandManager().register(plugin ,Countdown, "countdown");
     }
 
     @Listener

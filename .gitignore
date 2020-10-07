@@ -1,0 +1,15 @@
+# IntelliJ
+.idea/
+out/
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.zip
+*.rar
+*.tar.gz
+
+# Test (Maybe add later)
+test/

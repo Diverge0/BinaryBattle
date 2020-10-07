@@ -2,6 +2,9 @@
 .idea/
 out/
 
+# Maven
+target/
+
 # Log files
 *.log
 

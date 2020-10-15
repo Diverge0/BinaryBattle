@@ -1,6 +1,9 @@
 package main.java.diverge;
 import main.java.diverge.commands.CountdownCommand;
 import main.java.diverge.commands.PingPongCommand;
+import main.java.diverge.commands.TestCommand;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -25,8 +28,20 @@ public class BinaryBattle {
     //Needed to register commands
     @Inject
     private PluginContainer plugin;
+
     public PluginContainer getPlugin(){
         return plugin;
+    }
+
+    //Instance of Game, used to interact with the API
+    @Inject
+    private Game game;
+
+    //Instance of Server, used to interact with the API
+    private Server server;
+
+    public Server getServer() {
+        return server;
     }
 
     //Public method to log from anywhere
@@ -36,12 +51,20 @@ public class BinaryBattle {
 
     @Listener
     public void initializePlugin(GameInitializationEvent event){
+        server = game.getServer();
         //Simple Ping Pong command (see commands.PingPongCommand)
         CommandSpec PingPong = CommandSpec.builder()
                 .description(Text.of("Ping Pong"))
                 .executor(new PingPongCommand())
                 .build();
         Sponge.getCommandManager().register(plugin ,PingPong, "ping");
+
+        //Simple Test command used for trying various API features, remove later!
+        CommandSpec Test = CommandSpec.builder()
+                .description(Text.of("Test Stuff"))
+                .executor(new TestCommand(this))
+                .build();
+        Sponge.getCommandManager().register(plugin ,Test, "test");
 
         //Countdown command (see commands.Countdown)
         CommandSpec Countdown = CommandSpec.builder()
@@ -56,7 +79,7 @@ public class BinaryBattle {
 
     @Listener
     public void onServerStart(GameStartedServerEvent event){
-        logger.info("BinaryBattle Plugin loaded successfully");
+        log("BinaryBattle Plugin loaded successfully");
 
 
     }

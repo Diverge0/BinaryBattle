@@ -22,7 +22,7 @@ public class CountdownCommand implements CommandExecutor {
     }
 
     //Private class running in thread
-    private class Countdown implements Runnable{
+    private static class Countdown implements Runnable{
         int seconds;
         MessageChannel channel;
 

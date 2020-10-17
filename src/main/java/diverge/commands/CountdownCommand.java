@@ -1,14 +1,13 @@
 package main.java.diverge.commands;
 
+import main.java.diverge.util.Countdown;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
-import org.spongepowered.api.text.format.TextColors;
-import java.util.concurrent.TimeUnit;
+
 
 //Countdown command
 public class CountdownCommand implements CommandExecutor {
@@ -21,7 +20,7 @@ public class CountdownCommand implements CommandExecutor {
         return CommandResult.success();
     }
 
-    //Private class running in thread
+    /*//Private class running in thread
     private static class Countdown implements Runnable{
         int seconds;
         MessageChannel channel;
@@ -34,5 +33,5 @@ public class CountdownCommand implements CommandExecutor {
                 catch(Exception e){}//useless catch block
             }
         }
-    }
+    }*/
 }

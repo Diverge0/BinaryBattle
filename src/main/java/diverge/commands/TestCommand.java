@@ -2,6 +2,7 @@ package main.java.diverge.commands;
 
 import main.java.diverge.BinaryBattle;
 
+import main.java.diverge.util.Freeze;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -16,32 +17,25 @@ import org.spongepowered.api.event.filter.cause.First;
 public class TestCommand implements CommandExecutor {
     //Instance of main class
     private final BinaryBattle plugin;
-    private boolean stopPlayer;
-    private Player player;
+//    private boolean stopPlayer;
+//    private Player player;
 
     public TestCommand(BinaryBattle plugin){
         this.plugin = plugin;
-        stopPlayer = false;
-        Sponge.getEventManager().registerListeners(plugin, this);
+        Sponge.getEventManager().registerListeners(plugin, new Freeze());
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         //Put Test code here
-        if(src instanceof Player) {
-            this.player = (Player) src;
-            stopPlayer = !stopPlayer;
-        }
-
-
-
+        Freeze.stopPlayer = !Freeze.stopPlayer;
         return CommandResult.success();
     }
 
-    @Listener
+    /*@Listener
     public void onPlayerMove(MoveEntityEvent event, @First Player player){
         if(stopPlayer){
             event.setCancelled(true);
         }
-    }
+    }*/
 }

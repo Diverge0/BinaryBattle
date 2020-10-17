@@ -1,4 +1,5 @@
 package main.java.diverge;
+import main.java.diverge.commands.BattleCommand;
 import main.java.diverge.commands.CountdownCommand;
 import main.java.diverge.commands.PingPongCommand;
 import main.java.diverge.commands.TestCommand;
@@ -22,13 +23,18 @@ import org.spongepowered.api.text.Text;
 )
 
 public class BinaryBattle {
+    //instance of Logger(better console output)
     @Inject
     private Logger logger;
+
+    //Public method to log from anywhere
+    public void log(String logtext){
+        logger.info(logtext);
+    }
 
     //Needed to register commands
     @Inject
     private PluginContainer plugin;
-
     public PluginContainer getPlugin(){
         return plugin;
     }
@@ -44,14 +50,20 @@ public class BinaryBattle {
         return server;
     }
 
-    //Public method to log from anywhere
-    public void log(String logtext){
-        logger.info(logtext);
+    private Battle battle;
+
+    public Battle getBattle() {
+        return battle;
+    }
+
+    public void setBattle(Battle battle) {
+        this.battle = battle;
     }
 
     @Listener
     public void initializePlugin(GameInitializationEvent event){
         server = game.getServer();
+        //battle = new Battle(this, "idle");
         //Simple Ping Pong command (see commands.PingPongCommand)
         CommandSpec PingPong = CommandSpec.builder()
                 .description(Text.of("Ping Pong"))
@@ -75,6 +87,31 @@ public class BinaryBattle {
                 .executor(new CountdownCommand())
                 .build();
         Sponge.getCommandManager().register(plugin ,Countdown, "countdown");
+
+        //Battle command used to initialize and start the battle
+
+        // /battle init
+        CommandSpec initCmd = CommandSpec.builder()
+                .description(Text.of("initializes Battle and freezes all players"))
+                .executor(new BattleCommand(this,"init"))
+                .build();
+
+        CommandSpec startCmd = CommandSpec.builder()
+                .description(Text.of("unfreezes players and starts battle"))
+                .arguments(
+                        GenericArguments.onlyOne(GenericArguments.integer(Text.of("time in seconds")))
+                )
+                .executor(new BattleCommand(this,"start"))
+                .build();
+
+        CommandSpec battleCmd = CommandSpec.builder()
+                .description(Text.of("/battle <init / start> [int] initializes or starts the Battle"))
+                .child(initCmd, "init", "initialize")
+                .child(startCmd, "start")
+                .build();
+        Sponge.getCommandManager().register(plugin, battleCmd, "battle");
+
+
     }
 
     @Listener

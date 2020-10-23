@@ -2,7 +2,7 @@ package main.java.diverge;
 import main.java.diverge.commands.BattleCommand;
 import main.java.diverge.commands.CountdownCommand;
 import main.java.diverge.commands.PingPongCommand;
-import main.java.diverge.commands.TestCommand;
+import main.java.diverge.commands.FreezeCommand;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
@@ -72,11 +72,18 @@ public class BinaryBattle {
         Sponge.getCommandManager().register(plugin ,PingPong, "ping");
 
         //Simple Test command used for trying various API features, remove later!
-        CommandSpec Test = CommandSpec.builder()
+        /*CommandSpec Test = CommandSpec.builder()
                 .description(Text.of("Test Stuff"))
                 .executor(new TestCommand(this))
                 .build();
-        Sponge.getCommandManager().register(plugin ,Test, "test");
+        Sponge.getCommandManager().register(plugin ,Test, "test");*/
+
+        //Freezes all players
+        CommandSpec Freeze = CommandSpec.builder()
+                .description(Text.of("Freeze players"))
+                .executor(new FreezeCommand(this))
+                .build();
+        Sponge.getCommandManager().register(plugin ,Freeze, "freeze");
 
         //Countdown command (see commands.Countdown)
         CommandSpec Countdown = CommandSpec.builder()
